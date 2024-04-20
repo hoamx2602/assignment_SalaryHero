@@ -5,6 +5,7 @@ services:
       dockerfile: ./apps/salary/Dockerfile
       target: development
     command: npm run start:dev salary
+    container_name: salary
     env_file:
       - ./apps/salary/.env
     depends_on:
@@ -16,12 +17,47 @@ services:
       - /usr/src/app/node_modules
     ports:
       - '3005:3005'
+
+  consumer:
+    build: 
+      context: .
+      dockerfile: ./apps/consumer/Dockerfile
+      target: development
+    command: npm run start:dev consumer
+    container_name: consumer
+    env_file:
+      - ./apps/consumer/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    hostname: 'rabbitmq'
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
   auth:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
     command: npm run start:dev auth
+    container_name: 'auth'
     ports:
       - '3006:3006'
     env_file:
@@ -33,6 +69,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+      
   mongodb-primary:
     image: docker.io/bitnami/mongodb:5.0
     environment:
