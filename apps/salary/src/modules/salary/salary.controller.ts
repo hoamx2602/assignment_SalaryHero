@@ -1,12 +1,24 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { SalaryService } from './salary.service';
+import { SalaryConfigurationDto } from './dto';
 
-@Controller('salary')
+@Controller('salaries')
 export class SalaryController {
   constructor(private readonly salaryService: SalaryService) {}
 
   @Post('/')
-  getSalary(@Body('email') email: string) {
-    return this.salaryService.getSalary(email);
+  getSalaryByEmail(@Body('email') email: string) {
+    return this.salaryService.getSalaryByEmail(email);
+  }
+
+  @Post('/configuration/:companyId')
+  userSalaryConfigurations(
+    @Param('companyId') companyId: string,
+    @Body() salaryConfiguration: SalaryConfigurationDto,
+  ) {
+    return this.salaryService.userSalaryConfigurations(
+      companyId,
+      salaryConfiguration,
+    );
   }
 }

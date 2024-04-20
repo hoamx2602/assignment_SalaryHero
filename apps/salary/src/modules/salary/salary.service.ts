@@ -1,17 +1,52 @@
-import { UserBalance } from '@app/common';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import {
+  UserBalance,
+  UserBalanceRepository,
+  UserRepository,
+  UserSalaryConfigurationRepository,
+} from '@app/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { SalaryConfigurationDto } from './dto';
 
 @Injectable()
 export class SalaryService {
+  protected readonly logger = new Logger(SalaryService.name);
   constructor(
-    @InjectModel(UserBalance.name) private userBalanceModel: Model<UserBalance>,
+    private readonly userBalanceRepository: UserBalanceRepository,
+    private readonly userSalaryConfigurationRepository: UserSalaryConfigurationRepository,
+    private readonly userRepository: UserRepository,
   ) {}
-  //TODO: Implement the auth service
-  async getSalary(email: string): Promise<UserBalance> {
-    return this.userBalanceModel.findOne({
+  async getSalaryByEmail(email: string): Promise<UserBalance> {
+    return this.userBalanceRepository.findOne({
       email,
     });
+  }
+
+  async userSalaryConfigurations(
+    companyId: string,
+    salaryConfigurationDto: SalaryConfigurationDto,
+  ) {
+    const { user_email } = salaryConfigurationDto;
+    await this.userRepository.findUserByEmail(user_email);
+
+    const userSalaryConfiguration =
+      await this.userSalaryConfigurationRepository.findOneAndUpdate(
+        {
+          user_email,
+        },
+        {
+          company_id: companyId,
+          ...salaryConfigurationDto,
+        },
+      );
+
+    this.logger.debug(
+      'CreateUserSalaryConfigurations',
+      JSON.stringify({
+        companyId,
+        salaryConfigurationDto,
+      }),
+    );
+
+    return userSalaryConfiguration;
   }
 }

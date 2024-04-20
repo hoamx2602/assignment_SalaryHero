@@ -1,8 +1,12 @@
 import {
+  Company,
+  CompanySchema,
   DatabaseModule,
   User,
   UserBalance,
   UserBalanceSchema,
+  UserSalaryConfiguration,
+  UserSalaryConfigurationSchema,
   UserSchema,
 } from '@app/common';
 import { Module } from '@nestjs/common';
@@ -29,6 +33,14 @@ import * as Joi from 'joi';
       {
         name: UserBalance.name,
         schema: UserBalanceSchema,
+      },
+      {
+        name: Company.name,
+        schema: CompanySchema,
+      },
+      {
+        name: UserSalaryConfiguration.name,
+        schema: UserSalaryConfigurationSchema,
       },
     ]),
   ],
