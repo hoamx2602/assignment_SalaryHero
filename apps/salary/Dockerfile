@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run build salary
 
 FROM node:alpine as production
 

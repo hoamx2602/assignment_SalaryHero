@@ -40,7 +40,6 @@ services:
     container_name: 'rabbitmq'
     hostname: 'rabbitmq'
     environment:
-      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "rabbitmq"
       RABBITMQ_DEFAULT_PASS: "rabbitmq"
       RABBITMQ_DEFAULT_VHOST: "/"
