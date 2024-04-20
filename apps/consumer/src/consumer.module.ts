@@ -4,6 +4,7 @@ import { ConsumerService } from './consumer.service';
 import { RabbitMQModule } from '@app/common';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
+import { SALARY_SERVICE } from './constants/rabbitmq';
 
 @Module({
   imports: [
@@ -14,7 +15,9 @@ import { ConfigModule } from '@nestjs/config';
         RABBIT_MQ_SALARY_QUEUE: Joi.string().required(),
       }),
     }),
-    RabbitMQModule,
+    RabbitMQModule.register({
+      name: SALARY_SERVICE,
+    }),
   ],
   controllers: [ConsumerController],
   providers: [ConsumerService],
