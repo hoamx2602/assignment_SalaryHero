@@ -4,9 +4,6 @@ import { AbstractDocument } from '../database/abstract.schema';
 @Schema({ versionKey: false })
 export class User extends AbstractDocument {
   @Prop()
-  username: string;
-
-  @Prop()
   email: string;
 
   @Prop()

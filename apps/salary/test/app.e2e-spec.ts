@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { SalaryModule } from './../src/salary.module';
+import { SalaryModule } from '../src/app.module';
 
 describe('SalaryController (e2e)', () => {
   let app: INestApplication;

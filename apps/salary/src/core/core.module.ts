@@ -1,10 +1,14 @@
+import {
+  DatabaseModule,
+  User,
+  UserBalance,
+  UserBalanceSchema,
+  UserSchema,
+} from '@app/common';
 import { Module } from '@nestjs/common';
-import { SalaryController } from './salary.controller';
-import { SalaryService } from './salary.service';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi';
-import { DatabaseModule, User, UserSchema } from '@app/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -21,9 +25,12 @@ import { MongooseModule } from '@nestjs/mongoose';
         name: User.name,
         schema: UserSchema,
       },
+      {
+        name: UserBalance.name,
+        schema: UserBalanceSchema,
+      },
     ]),
   ],
-  controllers: [SalaryController],
-  providers: [SalaryService],
+  exports: [ConfigModule, DatabaseModule, MongooseModule],
 })
-export class SalaryModule {}
+export class CoreModule {}
