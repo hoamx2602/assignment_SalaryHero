@@ -4,6 +4,7 @@ import {
   DatabaseModule,
   User,
   UserBalance,
+  UserBalanceHistorySchema,
   UserBalanceSchema,
   UserSalaryConfiguration,
   UserSalaryConfigurationSchema,
@@ -41,6 +42,10 @@ import * as Joi from 'joi';
       {
         name: UserSalaryConfiguration.name,
         schema: UserSalaryConfigurationSchema,
+      },
+      {
+        name: UserBalance.name,
+        schema: UserBalanceHistorySchema,
       },
     ]),
   ],
