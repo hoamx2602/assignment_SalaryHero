@@ -5,10 +5,4 @@ import { SchemaTypes, Types } from 'mongoose';
 export class AbstractDocument {
   @Prop({ type: SchemaTypes.ObjectId })
   _id: Types.ObjectId;
-
-  @Prop()
-  created_at: number;
-
-  @Prop()
-  updated_at: number;
 }
