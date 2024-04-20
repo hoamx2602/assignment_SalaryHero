@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/salary/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/salary/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/salary",
+  "projects": {
+    "salary": {
+      "type": "application",
+      "root": "apps/salary",
+      "entryFile": "main",
+      "sourceRoot": "apps/salary/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/salary/tsconfig.app.json"
+      }
+    }
+  }
+}
