@@ -13,7 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
       }),
-      envFilePath: './apps/orders/.env',
+      envFilePath: './apps/salary/.env',
     }),
     DatabaseModule,
     MongooseModule.forFeature([
