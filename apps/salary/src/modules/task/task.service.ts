@@ -65,7 +65,7 @@ export class TaskService {
   }
 
   async isCreatedJobTask(jobKey: string, calculateTime: number): Promise<boolean> {
-    const jobLog = this.jobLogRepository.getJobLogByKey(jobKey, calculateTime)
+    const jobLog = await this.jobLogRepository.getJobLogByKey(jobKey, calculateTime)
 
     return !!jobLog;
   }
