@@ -16,8 +16,8 @@ export class TaskHelper {
     return currentTime - currentUTCTime;
   }
 
-  getCurrentCompanyTimeCalculate (companyTimezone: number) {
-    // Get current time at company timezone and then round time to o'clock time and subtract 1 to get the datetime calculate
-    return moment().utcOffset(companyTimezone * 60).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).subtract(1, "days");
+  getCurrentCompanyTimeCalculate (companyTimezone: number): number {
+    // Get current time at company timezone and then round time to o'clock time and subtract 1 to get the datetime calculation
+    return moment().utcOffset(companyTimezone * 60).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).subtract(1, "days").unix();
   }
 }

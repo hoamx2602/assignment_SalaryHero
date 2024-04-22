@@ -22,7 +22,7 @@ export class IncomeHistory extends AbstractDocument {
   total_income: number;
 
   @Prop()
-  user_salary_config_id: string;
+  processed_date: number;
 
   @Prop()
   created_at?: number;

@@ -14,6 +14,7 @@ export class ConsumerController {
   @EventPattern(EVENT_JOB_NAME)
   async taskHandle(@Payload() data: IJobTask, @Ctx() context: RmqContext) {
     this.consumerService.handleTask(data);
+    // if process success, we acked message
     this.rabbitMQService.ack(context);
   }
 }
