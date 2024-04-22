@@ -2,6 +2,8 @@ import {
   Company,
   CompanySchema,
   DatabaseModule,
+  JobLog,
+  JobLogSchema,
   User,
   UserBalance,
   UserBalanceHistorySchema,
@@ -46,6 +48,10 @@ import * as Joi from 'joi';
       {
         name: UserBalance.name,
         schema: UserBalanceHistorySchema,
+      },
+      {
+        name: JobLog.name,
+        schema: JobLogSchema,
       },
     ]),
   ],

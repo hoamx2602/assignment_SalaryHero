@@ -3,26 +3,23 @@ import { AbstractDocument } from '../database/abstract.schema';
 import { getUnixTime } from 'date-fns';
 
 @Schema({
-  collection: 'users',
   versionKey: false,
+  collection: 'job_logs',
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     currentTime: () => getUnixTime(new Date()),
   },
 })
-export class User extends AbstractDocument {
+export class JobLog extends AbstractDocument {
   @Prop()
-  email: string;
+  job_key: string;
 
   @Prop()
-  password: string;
+  day_caculate: number;
 
   @Prop()
-  role: UserRole;
-
-  @Prop()
-  company_id: string;
+  job_state: JobState;
 
   @Prop()
   created_at?: number;
@@ -31,9 +28,10 @@ export class User extends AbstractDocument {
   updated_at?: number;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const JobLogSchema = SchemaFactory.createForClass(JobLog);
 
-export enum UserRole {
-  EMPLOYEE = 'employee',
-  WORKER = 'worker',
+export enum JobState {
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  COMPLETED = 'completed',
 }

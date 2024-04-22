@@ -10,3 +10,5 @@ export * from './user_balance_history.schema';
 export * from './user_balance_history.repository';
 export * from './income_history.schema';
 export * from './income_history.repository';
+export * from './job_log.schema';
+export * from './job_log.repository';

@@ -5,6 +5,9 @@ export class CreateUserRequest {
   email: string;
 
   @IsString()
+  company_id: string;
+
+  @IsString()
   @IsNotEmpty()
   password: string;
 }

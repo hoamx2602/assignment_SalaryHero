@@ -25,6 +25,9 @@ export class Company extends AbstractDocument {
   created_at?: number;
 
   @Prop()
+  timezone: number;
+
+  @Prop()
   updated_at?: number;
 }
 

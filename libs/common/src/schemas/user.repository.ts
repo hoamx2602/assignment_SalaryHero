@@ -25,4 +25,12 @@ export class UserRepository extends AbstractRepository<User> {
 
     return user;
   }
+
+  async getAllUserByCompany(companyId: string):  Promise<User[]> {
+    const users = await this.model.find({
+      company_id: companyId
+    });
+
+    return users;
+  }
 }
