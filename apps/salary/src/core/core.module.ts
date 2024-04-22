@@ -6,6 +6,7 @@ import {
   JobLogSchema,
   User,
   UserBalance,
+  UserBalanceHistory,
   UserBalanceHistorySchema,
   UserBalanceSchema,
   UserSalaryConfiguration,
@@ -46,7 +47,7 @@ import * as Joi from 'joi';
         schema: UserSalaryConfigurationSchema,
       },
       {
-        name: UserBalance.name,
+        name: UserBalanceHistory.name,
         schema: UserBalanceHistorySchema,
       },
       {

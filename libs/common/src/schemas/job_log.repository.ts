@@ -15,10 +15,9 @@ export class JobLogRepository extends AbstractRepository<JobLog> {
     super(jobLogModel, connection);
   }
 
-  async getJobLogByKey(key: string, time: number): Promise<JobLog> {
+  async getJobLogByKey(key: string): Promise<JobLog> {
     return this.model.findOne({
-      job_key: key,
-      day_caculate: time
+      job_key: key
     });
   }
 }

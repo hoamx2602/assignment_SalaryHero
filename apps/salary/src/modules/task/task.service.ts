@@ -4,7 +4,7 @@ import { SALARY_SERVICE } from '../../constants/rabbitmq';
 import { ClientProxy } from '@nestjs/microservices';
 import { TaskHelper } from './helper/task.helper';
 import * as moment from "moment";
-import { CompanyRepository, JobLogRepository, JobState, UserRepository } from '@app/common';
+import { CompanyRepository, IJobTask, JobLogRepository, JobState, UserRepository, generateJobKey } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class TaskService {
       const timeCalculate = this.taskHelper.getCurrentCompanyTimeCalculate(company.timezone);
 
       for (const user of usersBelongToCompany) {
-        const jobKey = `task_handle_${company._id.toString()}_${user._id.toString()}`;
+        const jobKey = generateJobKey(user._id.toString(), company._id.toString());
 
         const isJobCreated = await this.isCreatedJobTask(jobKey, timeCalculate.unix());
         // If job (include companyId and userId) not created then create new job
@@ -58,15 +58,16 @@ export class TaskService {
   async createNewTaskJob(companyId: string, userId: string): Promise<void> {
     const eventName = this.configService.get<string>("EVENT_JOB_NAME");
     try {
-      this.salaryClient.emit(eventName, { user_id: userId });
+      const payload: IJobTask = { user_id: userId, company_id: companyId };
+      this.salaryClient.emit(eventName, payload);
     } catch (error) {
       this.logger.error('CANNOT_SEND_TASK_HANDLE', { companyId, userId, date: moment()});
     }
   }
 
   async isCreatedJobTask(jobKey: string, calculateTime: number): Promise<boolean> {
-    const jobLog = await this.jobLogRepository.getJobLogByKey(jobKey, calculateTime)
+    const jobLog = await this.jobLogRepository.getJobLogByKey(jobKey)
 
-    return !!jobLog;
+    return jobLog && jobLog.day_caculate === calculateTime ? true : false;
   }
 }

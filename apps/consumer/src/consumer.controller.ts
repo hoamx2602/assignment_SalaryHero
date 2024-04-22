@@ -1,7 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { ConsumerService } from './consumer.service';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { RabbitMQService } from '@app/common';
+import { IJobTask, RabbitMQService } from '@app/common';
+import { EVENT_JOB_NAME } from './constants/rabbitmq';
 
 @Controller()
 export class ConsumerController {
@@ -10,8 +11,8 @@ export class ConsumerController {
     private readonly rabbitMQService: RabbitMQService,
   ) {}
 
-  @EventPattern('task_handle')
-  async taskHandle(@Payload() data: any, @Ctx() context: RmqContext) {
+  @EventPattern(EVENT_JOB_NAME)
+  async taskHandle(@Payload() data: IJobTask, @Ctx() context: RmqContext) {
     this.consumerService.handleTask(data);
     this.rabbitMQService.ack(context);
   }
