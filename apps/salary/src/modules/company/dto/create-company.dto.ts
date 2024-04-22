@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateCompanyDto {
   @IsString()
@@ -6,9 +6,6 @@ export class CreateCompanyDto {
 
   @IsString()
   address: string;
-
-  @IsNumber()
-  timezone: number;
 
   @IsString()
   description: string;

@@ -1,4 +1,5 @@
 FROM node:alpine As development
+ENV TZ=Asia/Phnom_Penh
 
 WORKDIR /usr/src/app
 

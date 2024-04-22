@@ -19,9 +19,6 @@ export class Company extends AbstractDocument {
   address: string;
 
   @Prop()
-  timezone: number;
-
-  @Prop()
   description: string;
 
   @Prop()
