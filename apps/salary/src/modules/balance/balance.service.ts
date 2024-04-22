@@ -1,5 +1,5 @@
 import { UserBalance, UserBalanceRepository } from '@app/common';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { GetUserBalanceDto } from './dto';
 
 @Injectable()
@@ -9,6 +9,10 @@ export class BalanceService {
   async getUserBalance(
     getUserBalanceDto: GetUserBalanceDto,
   ): Promise<UserBalance> {
-    return this.userBalanceRepository.getUserBalance(getUserBalanceDto.email);
+    const userBalance = await this.userBalanceRepository.getUserBalance(getUserBalanceDto.email);
+    if (!userBalance) {
+      throw new BadRequestException("UserNotHaveBalance");
+    }
+    return userBalance;
   }
 }

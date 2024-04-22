@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { AbstractRepository } from '../database/abstract.repository';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
@@ -17,12 +17,6 @@ export class UserBalanceRepository extends AbstractRepository<UserBalance> {
 
   async getUserBalance(email: string): Promise<UserBalance> {
     const userBalance = await this.model.findOne({ email }, {}, { lean: true });
-
-    if (!userBalance) {
-      this.logger.warn('User not have the own balance', email);
-      throw new NotFoundException('User not have the own balance');
-    }
-
     return userBalance;
   }
 }
