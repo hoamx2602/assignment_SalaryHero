@@ -16,15 +16,10 @@ export class SalaryService {
     private readonly userRepository: UserRepository,
   ) {}
   async getSalaryByEmail(email: string): Promise<UserBalance> {
-    return this.userBalanceRepository.findOne({
-      email,
-    });
+    return this.userBalanceRepository.findOne({ email });
   }
 
-  async userSalaryConfigurations(
-    companyId: string,
-    salaryConfigurationDto: SalaryConfigurationDto,
-  ) {
+  async userSalaryConfigurations (companyId: string, salaryConfigurationDto: SalaryConfigurationDto) {
     const { user_email } = salaryConfigurationDto;
     await this.userRepository.findUserByEmail(user_email);
 
@@ -39,13 +34,7 @@ export class SalaryService {
         },
       );
 
-    this.logger.debug(
-      'CreateUserSalaryConfigurations',
-      JSON.stringify({
-        companyId,
-        salaryConfigurationDto,
-      }),
-    );
+    this.logger.debug('CreateUserSalaryConfigurations',JSON.stringify({ companyId, salaryConfigurationDto}));
 
     return userSalaryConfiguration;
   }

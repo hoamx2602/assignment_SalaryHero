@@ -4,17 +4,17 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from '@app/common';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
+  @ApiOperation({ description: "Login" })
   @Post('login')
-  async login(
-    @CurrentUser() user: User,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async login(@CurrentUser() user: User, @Res({ passthrough: true }) response: Response) {
     await this.authService.login(user, response);
     response.send(user);
   }
