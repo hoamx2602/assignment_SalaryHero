@@ -18,9 +18,9 @@ export class UserSalaryConfigurationRepository extends AbstractRepository<UserSa
     super(userSalaryConfigurationModel, connection);
   }
 
-  async getUserSalaryConfigByEmail (email: string, companyId: string): Promise<UserSalaryConfiguration> {
+  async getUserSalaryConfigByEmail (userId: string, companyId: string): Promise<UserSalaryConfiguration> {
     const userSalaryConfig = await this.model.findOne({
-      user_email: email,
+      user_id: userId,
       company_id: companyId
     }, {}, { lean: true });
 

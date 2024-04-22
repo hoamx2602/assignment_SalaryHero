@@ -15,8 +15,8 @@ export class UserBalanceRepository extends AbstractRepository<UserBalance> {
     super(userBalanceModel, connection);
   }
 
-  async getUserBalance(email: string): Promise<UserBalance> {
-    const userBalance = await this.model.findOne({ email }, {}, { lean: true });
+  async getUserBalance(userId: string): Promise<UserBalance> {
+    const userBalance = await this.model.findOne({ user_id: userId }, {}, { lean: true });
     return userBalance;
   }
 }

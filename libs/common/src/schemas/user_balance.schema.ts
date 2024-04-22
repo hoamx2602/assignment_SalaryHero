@@ -13,7 +13,7 @@ import { getUnixTime } from 'date-fns';
 })
 export class UserBalance extends AbstractDocument {
   @Prop()
-  user_email: string;
+  user_id: string;
 
   @Prop()
   available_balance: number;
@@ -32,3 +32,6 @@ export class UserBalance extends AbstractDocument {
 }
 
 export const UserBalanceSchema = SchemaFactory.createForClass(UserBalance);
+
+// Add index for user_id field
+UserBalanceSchema.index({ user_id: 1 }, { unique: true });

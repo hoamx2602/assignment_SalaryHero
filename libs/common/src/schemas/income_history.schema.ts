@@ -13,7 +13,7 @@ import { getUnixTime } from 'date-fns';
 })
 export class IncomeHistory extends AbstractDocument {
   @Prop()
-  user_email: string;
+  user_id: string;
 
   @Prop()
   daily_income: number;
@@ -32,3 +32,6 @@ export class IncomeHistory extends AbstractDocument {
 }
 
 export const IncomeHistorySchema = SchemaFactory.createForClass(IncomeHistory);
+
+// Add index for user_id field
+IncomeHistorySchema.index({ user_id: 1 }, { unique: true });

@@ -16,9 +16,9 @@ export class IncomeHistoryRepository extends AbstractRepository<IncomeHistory> {
     super(incomeHistoryModel, connection);
   }
 
-  async getHistoryIncome(userEmail: string, dateTime: number): Promise<IncomeHistory> {
+  async getHistoryIncome(userId: string, dateTime: number): Promise<IncomeHistory> {
     return this.model.findOne({
-      user_email: userEmail,
+      user_id: userId,
       processed_date: {
         $lt: dateTime
       }

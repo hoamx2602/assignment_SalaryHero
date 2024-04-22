@@ -36,12 +36,12 @@ export class ConsumerService {
       return;
     }
 
-    const historyIncome = await this.incomeHistoryRepository.getHistoryIncome(user.email, dateTime);
+    const historyIncome = await this.incomeHistoryRepository.getHistoryIncome(user_id, dateTime);
 
     // Handle create new IncomeSalaryHistory
     const dailyIncome = this.consumerHelper.dailyIncomeFormula(userSalaryConfig.base_salary, userSalaryConfig.number_working_day);
     const newHistoryIncome = new IncomeHistory();
-    newHistoryIncome.user_email = user.email;
+    newHistoryIncome.user_id = user_id;
     newHistoryIncome.daily_income = dailyIncome;
     newHistoryIncome.processed_date = dateTime;
     newHistoryIncome.total_income = historyIncome ? historyIncome.total_income + dailyIncome : dailyIncome;
@@ -52,7 +52,7 @@ export class ConsumerService {
     if (!userBalance) {
       // Create new user balance
       userBalance = new UserBalance();
-      userBalance.user_email = user.email;
+      userBalance.user_id = user_id;
       userBalance.available_balance = 0;
       userBalance.pending_balance = dailyIncome;
     } else {
@@ -65,7 +65,8 @@ export class ConsumerService {
     try {
       await Promise.all([
         this.incomeHistoryRepository.create(newHistoryIncome, { session }),
-        this.userBalanceRepository.create(userBalance, {session})
+        this.userBalanceRepository.create(userBalance, {session}),
+        this.jobLogRepository.findOneAndUpdate({ job_key: jobKey }, { $set: { job_state: JobState.COMPLETED }})
       ]);
 
       // All action success then commit transaction

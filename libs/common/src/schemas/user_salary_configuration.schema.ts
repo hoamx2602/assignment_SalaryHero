@@ -16,7 +16,7 @@ export class UserSalaryConfiguration extends AbstractDocument {
   company_id: string;
 
   @Prop()
-  user_email: string;
+  user_id: string;
 
   @Prop()
   number_working_day: number;
@@ -31,6 +31,7 @@ export class UserSalaryConfiguration extends AbstractDocument {
   updated_at?: number;
 }
 
-export const UserSalaryConfigurationSchema = SchemaFactory.createForClass(
-  UserSalaryConfiguration,
-);
+export const UserSalaryConfigurationSchema = SchemaFactory.createForClass(UserSalaryConfiguration);
+
+// Add index for user_id field
+UserSalaryConfigurationSchema.index({ user_id: 1 }, { unique: true });

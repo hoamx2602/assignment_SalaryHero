@@ -21,7 +21,7 @@ export class ConsumerHelper {
       _id: new Types.ObjectId(userId)
     });
 
-    const userSalaryConfig: UserSalaryConfiguration = await this.userSalaryConfigRepository.getUserSalaryConfigByEmail(user.email, companyId);
+    const userSalaryConfig: UserSalaryConfiguration = await this.userSalaryConfigRepository.getUserSalaryConfigByEmail(userId, companyId);
     return {
       user,
       userSalaryConfig

@@ -1,8 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { ConsumerService } from './consumer.service';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
-import { IJobTask, RabbitMQService } from '@app/common';
-import { EVENT_JOB_NAME } from './constants/rabbitmq';
+import { EVENT_JOB_NAME, IJobTask, RabbitMQService } from '@app/common';
 
 @Controller()
 export class ConsumerController {
