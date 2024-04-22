@@ -4,8 +4,17 @@ import { SALARY_SERVICE } from '../../constants/rabbitmq';
 import { ClientProxy } from '@nestjs/microservices';
 import { TaskHelper } from './helper/task.helper';
 import * as moment from "moment";
-import { Company, CompanyRepository, IJobTask, JobLogRepository, JobState, User, UserRepository, generateJobKey } from '@app/common';
-import { ConfigService } from '@nestjs/config';
+import {
+  Company,
+  CompanyRepository,
+  EVENT_JOB_NAME,
+  IJobTask,
+  JobLogRepository,
+  JobState,
+  User,
+  UserRepository,
+  generateJobKey
+} from '@app/common';
 
 @Injectable()
 export class TaskService {
@@ -16,7 +25,6 @@ export class TaskService {
     private readonly userRepository: UserRepository,
     private readonly jobLogRepository: JobLogRepository,
     private taskHelper: TaskHelper,
-    private readonly configService: ConfigService,
   ) {
     this.salaryClient.connect();
   }
@@ -24,12 +32,10 @@ export class TaskService {
   @Cron(CronExpression.EVERY_5_SECONDS)
   async handleCron() {
     try {
-      console.log(moment())
-      console.log(this.configService.get<string>("EVENT_JOB_NAME"));
       const currentTimeHour = moment().hour();
-      console.log('🟢====>currentTimeHour', currentTimeHour);
+
       const timeZoneAtMidNight = this.taskHelper.getMidNightTimezone(currentTimeHour);
-      console.log('🟢====>timeZoneAtMidNight', timeZoneAtMidNight);
+      this.logger.log("CurrentTimeHour", { currentTimeHour, timeZoneAtMidNight });
       const companyByTimezones: Company[] = await this.companyRepository.getCompaniesByTimezones(timeZoneAtMidNight);
 
       // Check if no companies run at midnight -> return;
@@ -55,18 +61,17 @@ export class TaskService {
         }
       }
     } catch (error) {
-      console.log(error);
       this.logger.error("HandleCronError", JSON.stringify(error));
     }
   }
 
   async createNewTaskJob(companyId: string, userId: string, dateTime: number): Promise<void> {
-    const eventName = this.configService.get<string>("EVENT_JOB_NAME");
     try {
       const payload: IJobTask = { user_id: userId, company_id: companyId, dateTime };
-      this.salaryClient.emit(eventName, payload);
+      this.salaryClient.emit(EVENT_JOB_NAME, payload);
     } catch (error) {
       this.logger.error('CANNOT_SEND_TASK_HANDLE', { companyId, userId, date: moment()});
+      throw error;
     }
   }
 

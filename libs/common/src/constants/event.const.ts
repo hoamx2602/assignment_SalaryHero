@@ -1,0 +1,1 @@
+export const EVENT_JOB_NAME = "DAILY_CALCULATE_SALARY";
