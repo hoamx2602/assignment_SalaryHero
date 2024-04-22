@@ -18,7 +18,7 @@ export class CompanyRepository extends AbstractRepository<Company> {
   async getCompaniesByTimezones(timezone: number): Promise<Company[]> {
     const companies = await this.model.find({
       timezone
-    });
+    }, {}, { lean: true });
 
     return companies;
   }

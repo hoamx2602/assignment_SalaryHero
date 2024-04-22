@@ -18,6 +18,6 @@ export class JobLogRepository extends AbstractRepository<JobLog> {
   async getJobLogByKey(key: string): Promise<JobLog> {
     return this.model.findOne({
       job_key: key
-    });
+    }, {}, { lean: true });
   }
 }
