@@ -1,10 +1,32 @@
 import { Module } from '@nestjs/common';
 import { ConsumerController } from './consumer.controller';
 import { ConsumerService } from './consumer.service';
-import { Company, CompanySchema, DatabaseModule, IncomeHistory, IncomeHistoryRepository, IncomeHistorySchema, JobLog, JobLogRepository, JobLogSchema, RabbitMQModule, User, UserBalance, UserBalanceHistory, UserBalanceHistorySchema, UserBalanceRepository, UserBalanceSchema, UserRepository, UserSalaryConfiguration, UserSalaryConfigurationRepository, UserSalaryConfigurationSchema, UserSchema } from '@app/common';
+import {
+  Company,
+  CompanySchema,
+  DatabaseModule,
+  IncomeHistory,
+  IncomeHistoryRepository,
+  IncomeHistorySchema,
+  JobLog,
+  JobLogRepository,
+  JobLogSchema,
+  RabbitMQModule,
+  SALARY_SERVICE_QUEUE,
+  User,
+  UserBalance,
+  UserBalanceHistory,
+  UserBalanceHistorySchema,
+  UserBalanceRepository,
+  UserBalanceSchema,
+  UserRepository,
+  UserSalaryConfiguration,
+  UserSalaryConfigurationRepository,
+  UserSalaryConfigurationSchema,
+  UserSchema
+} from '@app/common';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
-import { SALARY_SERVICE_QUEUE } from './constants/rabbitmq';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConsumerHelper } from './helper/consumer.helper';
 

@@ -3,8 +3,7 @@ import { AuthModule } from './auth.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { RabbitMQService } from '@app/common';
-import { AUTH_SERVICE_QUEUE } from './constants/rabbitmq';
+import { AUTH_SERVICE_QUEUE, RabbitMQService } from '@app/common';
 import { RmqOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
