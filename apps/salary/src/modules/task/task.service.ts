@@ -30,7 +30,7 @@ export class TaskService {
     this.salaryClient.connect();
   }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
     try {
       const currentTimeHour = moment().hour();
@@ -77,7 +77,7 @@ export class TaskService {
       const payload: IJobTask = { user_id: userId, company_id: companyId, dateTime };
       this.salaryClient.emit(EVENT_JOB_NAME, payload);
     } catch (error) {
-      this.logger.error('CANNOT_SEND_TASK_HANDLE', { companyId, userId, date: moment()});
+      this.logger.error('CANNOT_SEND_TASK_HANDLE', JSON.stringify({ companyId, userId, date: moment()}));
       throw error;
     }
   }
