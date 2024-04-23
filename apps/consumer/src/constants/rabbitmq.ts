@@ -1,1 +1,1 @@
-export const SALARY_SERVICE = 'SALARY';
+export const SALARY_SERVICE_QUEUE = 'SALARY';

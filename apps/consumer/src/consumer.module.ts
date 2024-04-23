@@ -4,7 +4,7 @@ import { ConsumerService } from './consumer.service';
 import { Company, CompanySchema, DatabaseModule, IncomeHistory, IncomeHistoryRepository, IncomeHistorySchema, JobLog, JobLogRepository, JobLogSchema, RabbitMQModule, User, UserBalance, UserBalanceHistory, UserBalanceHistorySchema, UserBalanceRepository, UserBalanceSchema, UserRepository, UserSalaryConfiguration, UserSalaryConfigurationRepository, UserSalaryConfigurationSchema, UserSchema } from '@app/common';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
-import { SALARY_SERVICE } from './constants/rabbitmq';
+import { SALARY_SERVICE_QUEUE } from './constants/rabbitmq';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConsumerHelper } from './helper/consumer.helper';
 
@@ -49,7 +49,7 @@ import { ConsumerHelper } from './helper/consumer.helper';
       },
     ]),
     RabbitMQModule.register({
-      name: SALARY_SERVICE,
+      name: SALARY_SERVICE_QUEUE,
     }),
   ],
   controllers: [ConsumerController],
