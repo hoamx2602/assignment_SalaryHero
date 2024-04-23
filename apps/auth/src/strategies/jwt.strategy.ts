@@ -28,6 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         _id: new Types.ObjectId(userId),
       });
     } catch (err) {
+      console.log('🟢====>err', err);
       throw new UnauthorizedException();
     }
   }

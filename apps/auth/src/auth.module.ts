@@ -21,6 +21,8 @@ import { UsersModule } from './users/users.module';
         JWT_EXPIRATION: Joi.string().required(),
         MONGODB_URI: Joi.string().required(),
         PORT: Joi.number().required(),
+        RABBIT_MQ_URI: Joi.string().required(),
+        RABBIT_MQ_SALARY_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/auth/.env',
     }),

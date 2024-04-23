@@ -4,3 +4,4 @@ export * from './rabbitmq';
 export * from './utils';
 export * from './interfaces';
 export * from './constants';
+export * from './auth';

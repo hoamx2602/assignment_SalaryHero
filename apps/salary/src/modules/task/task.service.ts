@@ -1,6 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { SALARY_SERVICE } from '../../constants/rabbitmq';
 import { ClientProxy } from '@nestjs/microservices';
 import { TaskHelper } from './helper/task.helper';
 import * as moment from "moment";
@@ -11,6 +10,7 @@ import {
   IJobTask,
   JobLogRepository,
   JobState,
+  SALARY_SERVICE_QUEUE,
   User,
   UserRepository,
   generateJobKey
@@ -20,7 +20,7 @@ import {
 export class TaskService {
   private readonly logger = new Logger(TaskService.name);
   constructor(
-    @Inject(SALARY_SERVICE) private salaryClient: ClientProxy,
+    @Inject(SALARY_SERVICE_QUEUE) private salaryClient: ClientProxy,
     private readonly companyRepository: CompanyRepository,
     private readonly userRepository: UserRepository,
     private readonly jobLogRepository: JobLogRepository,
