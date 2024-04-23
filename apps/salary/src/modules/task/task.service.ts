@@ -8,6 +8,7 @@ import {
   CompanyRepository,
   EVENT_JOB_NAME,
   IJobTask,
+  JobLog,
   JobLogRepository,
   JobState,
   SALARY_SERVICE_QUEUE,
@@ -51,12 +52,18 @@ export class TaskService {
         for (const user of usersBelongToCompany) {
           const jobKey = generateJobKey(user._id.toString(), company._id.toString());
 
-          const isJobCreated = await this.isCreatedJobTask(jobKey, timeCalculate);
-          // If job (include companyId and userId) not created then create new job
+          const isJobCreated: JobLog | false = await this.isCreatedJobTask(jobKey, timeCalculate);
+
+
+          // If job (include companyId and userId) not created then create new job logs
           if (!isJobCreated) {
-            await this.createNewTaskJob(company._id.toString(), user._id.toString(), timeCalculate);
-            // create job logs
-            await this.jobLogRepository.create({ job_key: jobKey, day_caculate: timeCalculate, job_state: JobState.PENDING });
+            await Promise.all([
+              this.createNewTaskJob(company._id.toString(), user._id.toString(), timeCalculate),
+              // create job logs
+              this.jobLogRepository.create({ job_key: jobKey, day_caculate: timeCalculate, job_state: JobState.PENDING })
+            ]);
+          } else if (isJobCreated.job_state === JobState.PENDING) { // if job state still pending then send again
+            await this.createNewTaskJob(company._id.toString(), user._id.toString(), timeCalculate)
           }
         }
       }
@@ -75,9 +82,9 @@ export class TaskService {
     }
   }
 
-  async isCreatedJobTask(jobKey: string, calculateTime: number): Promise<boolean> {
+  async isCreatedJobTask(jobKey: string, calculateTime: number): Promise<JobLog | false> {
     const jobLog = await this.jobLogRepository.getJobLogByKey(jobKey)
 
-    return jobLog && jobLog.day_caculate === calculateTime ? true : false;
+    return (jobLog && jobLog.day_caculate === calculateTime) ? jobLog : false;
   }
 }

@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNumber } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class SalaryConfigurationDto {
   @ApiProperty()
-  @IsEmail()
-  user_email: string;
+  @IsString()
+  user_id: string;
 
   @ApiProperty()
   @IsNumber()

@@ -16,9 +16,6 @@ export class UserBalanceHistory extends AbstractDocument {
   user_id: string;
 
   @Prop()
-  date: string;
-
-  @Prop()
   action_type: ActionType;
 
   @Prop()

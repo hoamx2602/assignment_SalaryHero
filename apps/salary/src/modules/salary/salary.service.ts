@@ -6,6 +6,7 @@ import {
 } from '@app/common';
 import { Injectable, Logger } from '@nestjs/common';
 import { SalaryConfigurationDto } from './dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class SalaryService {
@@ -20,13 +21,13 @@ export class SalaryService {
   }
 
   async userSalaryConfigurations (companyId: string, salaryConfigurationDto: SalaryConfigurationDto) {
-    const { user_email } = salaryConfigurationDto;
-    await this.userRepository.findUserByEmail(user_email);
+    const { user_id } = salaryConfigurationDto;
+    await this.userRepository.findOne({_id: new Types.ObjectId(user_id)});
 
     const userSalaryConfiguration =
       await this.userSalaryConfigurationRepository.findOneAndUpdate(
         {
-          user_email,
+          user_id,
         },
         {
           company_id: companyId,

@@ -15,6 +15,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV !== "production") {
     const config = new DocumentBuilder()
+      .addCookieAuth('Authentication')
       .setTitle(`${process.env.APP_NAME} API`)
       .setDescription('The apis for salary app')
       .setVersion('1.0')
