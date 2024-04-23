@@ -19,4 +19,5 @@ $ docker compose up -d --build
 1. Create new company
 2. Create new user belong to this company
 3. Create user salary configuration
+
 For exactly 00h00 (midnight at company timezone) then the cron will create new task for calculation daily salary
